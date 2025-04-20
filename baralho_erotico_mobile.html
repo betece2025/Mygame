@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baralho Erótico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1c1c1c;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            padding: 20px;
+            max-width: 90vw;
+            margin: auto;
+        }
+        button {
+            background-color: #e60073;
+            color: white;
+            padding: 14px 24px;
+            margin: 12px 6px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 90%;
+            max-width: 300px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #cc0066;
+        }
+        .question-box {
+            font-size: 1.2rem;
+            margin: 30px 0 10px 0;
+        }
+        .category-label {
+            font-size: 1rem;
+            color: #ff99cc;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Baralho Erótico</h1>
+        <div class="category-label" id="category-label"></div>
+        <div class="question-box" id="question">Clique em "Sortear Pergunta" para começar</div>
+        <button onclick="nextQuestion()">Sortear Pergunta</button>
+        <button onclick="restart()">Reiniciar Baralho</button>
+    </div>
+
+    <script>
+        const perguntas = {
+            "Desejos Secretos": ['Você já fantasiou comigo em público? Onde exatamente?', 'Qual é a sua posição sexual favorita — e qual nunca tentou, mas gostaria?', 'Você toparia me dar prazer com outras partes do corpo além das mãos e boca?', 'Se eu sussurrasse “quero realizar seu desejo secreto”, o que você pediria?', 'Você prefere ser conduzido(a) ou conduzir num momento de prazer intenso?', 'Você já quis me provocar discretamente na frente de outras pessoas?', 'Se você pudesse me dar uma ordem erótica agora, qual seria?', 'Em qual parte do meu corpo você pensa quando sente desejo?', 'Existe alguma peça de roupa que te deixaria excitado(a) se eu usasse?', 'Que tipo de carícia lenta te deixaria sem controle?', 'Qual o cenário ideal pra uma transa inesquecível: local, clima, roupa?', 'Você gostaria de um jogo onde cada roupa tirada revela um comando?', 'Já se imaginou me amarrando ou sendo amarrado(a) por mim?', 'Se fosse pra me surpreender com algo sexualmente ousado, o que faria?', 'Você gostaria de ver um espelho ao lado da cama enquanto a gente transa?', 'Já pensou em me esperar de surpresa, nu(a), apenas com um acessório?', 'Existe um elogio erótico que você gostaria de ouvir na hora H?', 'Você prefere intensidade selvagem ou provocação lenta e prolongada?', 'Em que parte do seu corpo você sente prazer só de imaginar meu toque?', 'Qual fantasia você tem vergonha de contar, mas sente que comigo poderia viver?'],
+            "Confissões do Passado": ['Qual foi a transa mais inesquecível da sua vida — antes de mim?', 'Já transou em um lugar completamente impróprio? Onde?', 'Já fingiu prazer só pra acabar logo? Por quê?', 'Qual foi a maior loucura sexual que você já fez por impulso?', 'Já mandou nudes ousados pra alguém? Se arrependeu?', 'Você já teve tesão por alguém comprometido(a)?', 'Já ficou com duas pessoas no mesmo dia?', 'Já teve vontade de repetir algo com um(a) ex?', 'Qual foi sua descoberta mais marcante sobre o próprio corpo?', 'Já foi pego(a) no flagra se masturbando ou transando?', 'Alguma vez você iniciou uma transa só pela adrenalina de “ser errado”?', 'Já desejou alguém enquanto estava em um relacionamento?', 'Já transou em um carro, elevador ou outro espaço apertado?', 'Já foi traído(a)? Isso influenciou sua relação com o sexo?', 'Já fez sexo por pura curiosidade e se surpreendeu?', 'Já teve algum envolvimento com alguém do mesmo sexo?', 'Já usou brinquedos eróticos com alguém? Como foi a experiência?', 'Existe algo que você só conseguiu fazer com um parceiro específico?', 'Qual foi a coisa mais inusitada que te excitou?', 'Alguma vez você ficou excitado(a) num momento completamente inadequado?'],
+            "Fantasias com Mais Pessoas": ['Você já imaginou um ménage? Com quem seria?', 'Você prefere ser observado(a) ou observar outra pessoa transando comigo?', 'Qual seria o seu limite em uma experiência com mais pessoas?', 'Você toparia assistir alguém me dando prazer?', 'Preferiria um ménage com conhecidos ou desconhecidos?', 'Já teve vontade de ser tocado(a) por duas pessoas ao mesmo tempo?', 'Você gostaria de dominar duas pessoas na cama?', 'Qual cenário te excita mais: eu com duas pessoas ou você sendo o centro?', 'Já se masturbou imaginando uma cena com múltiplos corpos?', 'Você gostaria de estar em uma festa secreta onde todos se tocam?', 'A ideia de dividir meu prazer com alguém te excita ou assusta?', 'Você já sentiu ciúmes só de imaginar essa fantasia?', 'Se pudesse escolher quem participa, seria alguém que conhecemos?', 'O que você gostaria de explorar primeiro: toque, olhar ou comando?', 'Toparia usar máscaras para preservar a identidade num ménage?', 'Você já assistiu a uma cena de sexo ao vivo?', 'Numa situação com mais pessoas, você agiria ou esperaria ser convidado(a)?', 'Qual palavra você usaria para pedir que parassem caso algo te incomodasse?', 'Você gostaria de filmar a cena ou só viver o momento?', 'Essa fantasia é só uma curiosidade ou algo que você realmente quer viver?'],
+            "Masturbação & Voyeurismo": ['Você costuma se tocar pensando em mim? Com que frequência?', 'Já se masturbou ouvindo minha voz ou lendo algo que eu escrevi?', 'Gosta de ser observado(a) se tocando? Ou prefere observar?', 'Já gravou um vídeo se masturbando? Gostaria de me mostrar?', 'Onde foi o lugar mais inusitado onde você já se masturbou?', 'Você já se excita só de me ver se tocando?', 'Prefere se masturbar com ou sem brinquedos?', 'Qual seria o cenário ideal pra eu te assistir se tocando?', 'Já pensou em abrir a câmera só pra me mostrar o que sente por mim?', 'Você se excita ao saber que estou me tocando pensando em você?', 'Já se masturbou em público, mesmo que discretamente?', 'Já fantasiou com alguém te assistindo escondido(a)?', 'Você gosta da ideia de mostrar prazer ou acha íntimo demais?', 'O que te deixa mais excitado(a): som, imagem ou toque?', 'Você toparia um desafio de se tocar por comando meu?', 'Já pensou em colocar um espelho na cama só pra se assistir comigo?', 'Existe alguma posição específica em que você gosta de se masturbar?', 'Já teve vontade de me dar um show privado?', 'Você já se tocou só pra aliviar o estresse — ou sempre tem um motivo erótico?', 'Prefere se masturbar antes de transar ou depois?']
+        };
+
+        let baralho = [];
+
+        function gerarBaralho() {
+            baralho = [];
+            for (let categoria in perguntas) {
+                perguntas[categoria].forEach(p => {
+                    baralho.push({ categoria: categoria, texto: p });
+                });
+            }
+        }
+
+        function nextQuestion() {
+            if (baralho.length === 0) {
+                document.getElementById('question').innerText = "Acabaram as perguntas!";
+                document.getElementById('category-label').innerText = "";
+                return;
+            }
+            const index = Math.floor(Math.random() * baralho.length);
+            const carta = baralho.splice(index, 1)[0];
+            document.getElementById('question').innerText = carta.texto;
+            document.getElementById('category-label').innerText = "Categoria: " + carta.categoria;
+        }
+
+        function restart() {
+            gerarBaralho();
+            document.getElementById('question').innerText = "Clique em \"Sortear Pergunta\" para começar";
+            document.getElementById('category-label').innerText = "";
+        }
+
+        window.onload = () => {
+            gerarBaralho();
+        };
+    </script>
+</body>
+</html>
